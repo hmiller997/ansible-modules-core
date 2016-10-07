@@ -359,7 +359,9 @@ def add_disk(module, s, config_target, config, devices, datastore, type="thin", 
         "disk_backing").pyclass()
     disk_backing.set_element_fileName(datastore_name)
     disk_backing.set_element_diskMode("persistent")
-    if type != "thick":
+    if type == "eager":
+        disk_backing.set_element_eagerlyScrub("eager_zero")
+    elif type == "thin":
         disk_backing.set_element_thinProvisioned(1)
     disk_ctlr.set_element_key(key)
     disk_ctlr.set_element_controllerKey(int(disk_ctrl_key))
